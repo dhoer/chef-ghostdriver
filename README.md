@@ -54,7 +54,7 @@ end
 ## Attributes
 
 This is a partial list of attributes available. See
-[ghostdriver resource](https://github.com/dhoer/chef-ghostdriver/blob/master/resources/ghostdriver.rb)
+[ghostdriver resources](https://github.com/dhoer/chef-ghostdriver/blob/master/resources/default.rb)
 for the complete listing of attributes.
 
 - `name` - Name attribute used as the name of the service.
