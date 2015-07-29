@@ -32,6 +32,9 @@ These cookbooks are referenced with suggests, so be sure to depend on cookbooks 
 
 ## Examples
 
+See [ghostdriver_test](https://github.com/dhoer/chef-ghostdriver/tree/master/test/fixtures/cookbooks/ghostdriver_test)
+cookbook for working examples. 
+
 ### Install ghostdriver as a standalone server
 
 ```ruby
