@@ -1,8 +1,8 @@
 require 'rspec_helper'
 
-describe 'ghostdriver Standalone', unless: /darwin/ =~ RUBY_PLATFORM do
+describe 'ghostdriver standalone', unless: /darwin/ =~ RUBY_PLATFORM do
   before(:all) do
-    @selenium = Selenium::WebDriver.for(:remote, url: 'http://localhost:8911')
+    @selenium = Selenium::WebDriver.for(:remote, url: 'http://localhost:8910')
     @selenium.manage.window.size = Selenium::WebDriver::Dimension.new(1280, 1024)
   end
 

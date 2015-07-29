@@ -58,12 +58,6 @@ describe 'ghostdriver_test::phantomjs_standalone' do
       expect(chef_run).to install_ghostdriver('ghostdriver_standalone')
     end
 
-    it 'creates home directory' do
-      expect(chef_run).to create_directory('/usr/local/ghostdriver/log').with(
-        recursive: true
-      )
-    end
-
     it 'creates ghostdriver user' do
       expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver_standalone').with(
         username: 'ghostdriver')
@@ -77,7 +71,7 @@ describe 'ghostdriver_test::phantomjs_standalone' do
         variables: {
           name: 'ghostdriver_standalone',
           user: 'ghostdriver',
-          exec: '/usr/local/bin/ghostdriver',
+          exec: '/usr/local/bin/phantomjs',
           args: '--webdriver=10.0.0.2:8910',
           port: 8910,
           display: nil

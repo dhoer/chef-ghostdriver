@@ -25,7 +25,7 @@ describe 'ghostdriver_test::phantomjs_selenium' do
     it 'install service' do
       expect(chef_run).to install_nssm('ghostdriver_seleniumnode').with(
         program: 'C:/ProgramData/chocolatey/bin/phantomjs.exe',
-        args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
+        args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444/grid/register/',
         params: {
           AppDirectory: 'C:/ghostdriver',
           AppStdout: 'C:/ghostdriver/log/ghostdriver_seleniumnode.log',
@@ -55,12 +55,6 @@ describe 'ghostdriver_test::phantomjs_selenium' do
       expect(chef_run).to install_ghostdriver('ghostdriver_seleniumnode')
     end
 
-    it 'creates home directory' do
-      expect(chef_run).to create_directory('/usr/local/ghostdriver/log').with(
-        recursive: true
-      )
-    end
-
     it 'creates selenium user' do
       expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver_seleniumnode').with(
         username: 'ghostdriver')
@@ -74,8 +68,8 @@ describe 'ghostdriver_test::phantomjs_selenium' do
         variables: {
           name: 'ghostdriver_seleniumnode',
           user: 'ghostdriver',
-          exec: '/usr/local/bin/ghostdriver',
-          args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
+          exec: '/usr/local/bin/phantomjs',
+          args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444/grid/register/',
           port: 8911,
           display: nil
         }

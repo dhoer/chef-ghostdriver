@@ -8,13 +8,12 @@
 [travis]: https://travis-ci.org/dhoer/chef-ghostdriver
 [github]: https://github.com/dhoer/chef-ghostdriver/issues
 
-This cookbook installs and configures GhostDriver for PhantomJS as a standalone server or selenium-grid node via
-[GhostDriver](https://github.com/detro/ghostdriver) (Mac OS X is not supported).
+This cookbook installs and configures GhostDriver (https://github.com/detro/ghostdriver) for PhantomJS as a 
+standalone server or selenium-grid node.
 
 ## Requirements
 
-- Chef 11.14 or higher (`sensitive` resource introduced)
-- Java must be installed outside of this cookbook
+- Chef 11.6.0 (includes a built-in registry_key resource) or higher
 
 ### Platforms
 
@@ -28,7 +27,6 @@ This cookbook installs and configures GhostDriver for PhantomJS as a standalone 
 
 These cookbooks are referenced with suggests, so be sure to depend on cookbooks that apply:
 
-- selenium
 - windows
 - nssm - Required for Windows services only 
 
@@ -46,18 +44,14 @@ end
 
 ```ruby
 ghostdriver 'ghostdriver_seleniumnode' do
-  webdriverSeleniumGridHub 'http://localhost:4444'
+  webdriverSeleniumGridHub "http://#{node['ipaddress']}:4444/grid/register/"
   action :install
 end
 ```
 
 ## Attributes
 
-This is a partial list of attributes available. See
-[ghostdriver resources](https://github.com/dhoer/chef-ghostdriver/blob/master/resources/default.rb)
-for the complete listing of attributes.
-
-- `name` - Name attribute used as the name of the service.
+- `servicename` - Service name.  Defaults to the name of the resource block. 
 - `webdriver` - Webdriver ip:port.  Defaults to `#{node['ipaddress']}:8910`.
 - `webdriverSeleniumGridHub` -  URL of selenium hub. Defaults to `nil`.
 
@@ -69,14 +63,14 @@ your own cookbooks.
 Example Matcher Usage
 
 ```ruby
-expect(chef_run).to install_ghostdriver('service_name').with(
-  webdriverSeleniumGridHub: 'http://localhost:4444'
+expect(chef_run).to install_ghostdriver('ghostdriver_seleniumnode').with(
+  webdriverSeleniumGridHub: "http://#{node['ipaddress']}:4444/grid/register/"
 )
 ```
       
 Cookbook Matchers
 
-- install_ghostdriver(service_name)
+- install_ghostdriver(resource_name)
 
 ## Getting Help
 

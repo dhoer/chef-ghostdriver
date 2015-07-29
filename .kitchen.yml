@@ -27,6 +27,7 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[ghostdriver_test::package]
       - recipe[ghostdriver_test::java]
       - recipe[ghostdriver_test::hub]
       - recipe[ghostdriver_test::phantomjs_selenium]

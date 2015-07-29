@@ -11,17 +11,13 @@ def ghostdriver_validate_exec(cmd)
   exec.error!
 end
 
-def ghostdriver_home
-  platform_family?('windows') ? node['ghostdriver']['windows']['home'] : node['ghostdriver']['linux']['home']
-end
-
 def ghostdriver_windows_service(name, exec, args)
-  log_file = "#{ghostdriver_home}/log/#{name}.log"
+  log_file = "#{node['ghostdriver']['windows']['home']}/log/#{name}.log"
   nssm name do
     program exec
     args args.join(' ').gsub('"', '"""')
     params(
-      AppDirectory: ghostdriver_home,
+      AppDirectory: node['ghostdriver']['windows']['home'],
       AppStdout: log_file,
       AppStderr: log_file,
       AppRotateFiles: 1

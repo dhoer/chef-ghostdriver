@@ -15,4 +15,3 @@ depends 'phantomjs', '~> 1.0'
 
 suggests 'nssm', '~> 1.0'
 suggests 'windows', '~> 1.0'
-suggests 'selenium', '~> 2.0'

@@ -27,13 +27,13 @@ action :install do
         run_context.include_recipe 'phantomjs::default'
       end
 
-      directory "#{ghostdriver_home}/log" do
-        recursive true
-        action :create
-      end
-
       case node['platform']
       when 'windows'
+        directory "#{node['ghostdriver']['windows']['home']}/log" do
+          recursive true
+          action :create
+        end
+
         ghostdriver_windows_service(new_resource.name, ghostdriver_exec, ghostdriver_args)
         ghostdriver_windows_firewall(new_resource.name, ghostdriver_port(new_resource.webdriver))
 
