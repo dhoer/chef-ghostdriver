@@ -10,19 +10,19 @@ platforms:
   - name: centos-7.1
     driver:
       network:
-      - ["forwarded_port", {guest: 4444, host: 4444}]
-      - ["forwarded_port", {guest: 8910, host: 8910}]
+      - ["forwarded_port", {guest: 4444, host: 4454}]
+      - ["forwarded_port", {guest: 8910, host: 8920}]
   - name: ubuntu-14.04
     driver:
       network:
-      - ["forwarded_port", {guest: 4444, host: 4445}]
-      - ["forwarded_port", {guest: 8910, host: 8911}]
+      - ["forwarded_port", {guest: 4444, host: 4455}]
+      - ["forwarded_port", {guest: 8910, host: 8922}]
   - name: windows-2012r2
     driver:
       box: dhoer/windows-2012r2
       network:
-      - ["forwarded_port", {guest: 4444, host: 4446}]
-      - ["forwarded_port", {guest: 8910, host: 8912}]
+      - ["forwarded_port", {guest: 4444, host: 4456}]
+      - ["forwarded_port", {guest: 8910, host: 8924}]
 
 suites:
   - name: default
@@ -30,8 +30,8 @@ suites:
       - recipe[ghostdriver_test::package]
       - recipe[ghostdriver_test::java]
       - recipe[ghostdriver_test::hub]
-      - recipe[ghostdriver_test::phantomjs_selenium]
-      - recipe[ghostdriver_test::phantomjs_standalone]
+      - recipe[ghostdriver_test::selenium_node]
+      - recipe[ghostdriver_test::standalone]
     attributes:
       java:
         jdk_version: '7'

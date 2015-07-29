@@ -8,7 +8,7 @@
 [travis]: https://travis-ci.org/dhoer/chef-ghostdriver
 [github]: https://github.com/dhoer/chef-ghostdriver/issues
 
-This cookbook installs and configures GhostDriver (https://github.com/detro/ghostdriver) for PhantomJS as a 
+This cookbook installs and configures PhantomJS GhostDriver (https://github.com/detro/ghostdriver) as a 
 standalone server or selenium-grid node.
 
 ## Requirements

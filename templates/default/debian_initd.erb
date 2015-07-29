@@ -6,7 +6,7 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Interactive:     true
-# Short-Description: Selenium <%=@name%> service
+# Short-Description: GhostDriver <%=@name%> service
 ### END INIT INFO
 
 set -e
@@ -32,12 +32,13 @@ fi
 if [ -f "$pidfile" ]; then
   PID=$(cat $pidfile)
   if [ "$1" = "restart" -o "$1" = "stop" ]; then
-    kill $PID
+    kill $PID || echo "Failed to kill $PID, so assuming process died."
     rm $pidfile
   fi
 fi
 
 if [ "$1" = "start" -o "$1" = "restart" ]; then
+  sleep 5 # allow for selenium hub service to come up
   if [ ! -f "$pidfile" ]; then
     touch $pidfile
     chown $user $pidfile

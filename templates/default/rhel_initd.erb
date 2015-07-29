@@ -3,7 +3,7 @@
 # <%=@name%>
 #
 # chkconfig: 345 90 25
-# description: Selenium <%=@name%> service
+# description: GhostDriver <%=@name%> service
 
 # Source function library.
 . /etc/init.d/functions
@@ -22,6 +22,8 @@ RETVAL=0
 
 start() {
   echo -n $"Starting $prog: "
+
+  sleep 5 # allow for selenium hub service to come up
 
   touch $pidfile
   chown $user $pidfile

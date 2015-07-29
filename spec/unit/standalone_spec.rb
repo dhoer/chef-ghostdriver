@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ghostdriver_test::phantomjs_standalone' do
+describe 'ghostdriver_test::standalone' do
   let(:shellout) { double(run_command: nil, error!: nil, stdout: ' ') }
 
   before { allow(Mixlib::ShellOut).to receive(:new).and_return(shellout) }
