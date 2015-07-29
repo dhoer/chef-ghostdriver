@@ -27,7 +27,6 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ghostdriver_test::package]
       - recipe[ghostdriver_test::java]
       - recipe[ghostdriver_test::hub]
       - recipe[ghostdriver_test::phantomjs_selenium]
@@ -36,8 +35,6 @@ suites:
       java:
         jdk_version: '7'
         windows:
-          # TODO: REPLACE URL WITH ENVIRONMENT VARIABLE
-          url: https://s3.amazonaws.com/prsnpublic/jdk-8u51-windows-i586.exe
       selenium:
         windows:
           java: C:\\Program Files (x86)\\Java\\jdk1.8.0_51\\bin\\java.exe

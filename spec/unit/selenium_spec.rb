@@ -8,33 +8,39 @@ describe 'ghostdriver_test::phantomjs_selenium' do
   context 'windows' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'windows', version: '2008R2', step_into: ['ghostdriver']) do
-        stub_command("netsh advfirewall firewall show rule name=\"ghostdriver\" > nul")
+        stub_command("netsh advfirewall firewall show rule name=\"ghostdriver_seleniumnode\" > nul")
       end.converge(described_recipe)
     end
 
     it 'installs ghostdriver selenium server' do
-      expect(chef_run).to install_ghostdriver('ghostdriver')
+      expect(chef_run).to install_ghostdriver('ghostdriver_seleniumnode')
     end
 
-    it 'install ghostdriver service' do
-      expect(chef_run).to install_nssm('ghostdriver').with(
+    it 'creates home directory' do
+      expect(chef_run).to create_directory('C:/ghostdriver/log').with(
+        recursive: true
+      )
+    end
+
+    it 'install service' do
+      expect(chef_run).to install_nssm('ghostdriver_seleniumnode').with(
         program: 'C:/ProgramData/chocolatey/bin/phantomjs.exe',
-        args: '--webdriver=10.0.0.2:8910 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
+        args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
         params: {
           AppDirectory: 'C:/ghostdriver',
-          AppStdout: 'C:/ghostdriver/log/ghostdriver.log',
-          AppStderr: 'C:/ghostdriver/log/ghostdriver.log',
+          AppStdout: 'C:/ghostdriver/log/ghostdriver_seleniumnode.log',
+          AppStderr: 'C:/ghostdriver/log/ghostdriver_seleniumnode.log',
           AppRotateFiles: 1
         }
       )
     end
 
     it 'creates firewall rule' do
-      expect(chef_run).to run_execute('Firewall rule ghostdriver for port 8910')
+      expect(chef_run).to run_execute('Firewall rule ghostdriver_seleniumnode for port 8911')
     end
 
     it 'reboots windows server' do
-      expect(chef_run).to_not request_windows_reboot('Reboot to start ghostdriver')
+      expect(chef_run).to_not request_windows_reboot('Reboot to start ghostdriver_seleniumnode')
     end
   end
 
@@ -46,31 +52,38 @@ describe 'ghostdriver_test::phantomjs_selenium' do
     end
 
     it 'installs selenium_ghostdriver server' do
-      expect(chef_run).to install_ghostdriver('ghostdriver')
+      expect(chef_run).to install_ghostdriver('ghostdriver_seleniumnode')
+    end
+
+    it 'creates home directory' do
+      expect(chef_run).to create_directory('/usr/local/ghostdriver/log').with(
+        recursive: true
+      )
     end
 
     it 'creates selenium user' do
-      expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver').with(username: 'ghostdriver')
+      expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver_seleniumnode').with(
+        username: 'ghostdriver')
     end
 
-    it 'install selenium_ghostdriver' do
-      expect(chef_run).to create_template('/etc/init.d/ghostdriver').with(
+    it 'install service' do
+      expect(chef_run).to create_template('/etc/init.d/ghostdriver_seleniumnode').with(
         source: 'rhel_initd.erb',
         cookbook: 'ghostdriver',
         mode: '0755',
         variables: {
-          name: 'ghostdriver',
+          name: 'ghostdriver_seleniumnode',
           user: 'ghostdriver',
           exec: '/usr/local/bin/ghostdriver',
-          args: '--webdriver=10.0.0.2:8910 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
-          port: 8910,
+          args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
+          port: 8911,
           display: nil
         }
       )
     end
 
     it 'start selenium_ghostdriver' do
-      expect(chef_run).to_not start_service('ghostdriver')
+      expect(chef_run).to_not start_service('ghostdriver_seleniumnode')
     end
   end
 end

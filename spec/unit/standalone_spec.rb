@@ -15,27 +15,31 @@ describe 'ghostdriver_test::phantomjs_standalone' do
 
     it 'installs ghostdriver standalone server' do
       expect(chef_run).to install_ghostdriver('ghostdriver_standalone').with(
-        username: 'vagrant',
-        password: 'vagrant',
-        webdriver: 'localhost:8911'
+        webdriver: '10.0.0.2:8910'
       )
     end
 
-    it 'creates shortcut to selenium cmd file' do
-      expect(chef_run).to create_windows_shortcut(
-        'C:\Users\vagrant\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ghostdriver_standalone.lnk'
+    it 'creates home directory' do
+      expect(chef_run).to create_directory('C:/ghostdriver/log').with(
+        recursive: true
       )
     end
 
-    it 'creates selenium foreground command' do
-      expect(chef_run).to create_file('C:/ghostdriver/bin/ghostdriver_standalone.cmd').with(
-        content: '"C:/ProgramData/chocolatey/bin/phantomjs.exe" --webdriver=localhost:8911 -log '\
-          '"C:/ghostdriver/log/ghostdriver_standalone.log"'
+    it 'installs service' do
+      expect(chef_run).to install_nssm('ghostdriver_standalone').with(
+        program: 'C:/ProgramData/chocolatey/bin/phantomjs.exe',
+        args: '--webdriver=10.0.0.2:8910',
+        params: {
+          AppDirectory: 'C:/ghostdriver',
+          AppStdout: 'C:/ghostdriver/log/ghostdriver_standalone.log',
+          AppStderr: 'C:/ghostdriver/log/ghostdriver_standalone.log',
+          AppRotateFiles: 1
+        }
       )
     end
 
     it 'creates firewall rule' do
-      expect(chef_run).to run_execute('Firewall rule ghostdriver_standalone for port 8911')
+      expect(chef_run).to run_execute('Firewall rule ghostdriver_standalone for port 8910')
     end
 
     it 'reboots windows server' do
@@ -46,7 +50,7 @@ describe 'ghostdriver_test::phantomjs_standalone' do
   context 'linux' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'centos', version: '7.0', step_into: ['ghostdriver']) do
-        allow_any_instance_of(Chef::Recipe).to receive(:ghostdriver_home).and_return('/var/local/ghostdriver')
+        allow_any_instance_of(Chef::Recipe).to receive(:ghostdriver_home).and_return('/usr/local/ghostdriver')
       end.converge(described_recipe)
     end
 
@@ -54,12 +58,18 @@ describe 'ghostdriver_test::phantomjs_standalone' do
       expect(chef_run).to install_ghostdriver('ghostdriver_standalone')
     end
 
+    it 'creates home directory' do
+      expect(chef_run).to create_directory('/usr/local/ghostdriver/log').with(
+        recursive: true
+      )
+    end
+
     it 'creates ghostdriver user' do
       expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver_standalone').with(
         username: 'ghostdriver')
     end
 
-    it 'install ghostdriver_standalone' do
+    it 'install service' do
       expect(chef_run).to create_template('/etc/init.d/ghostdriver_standalone').with(
         source: 'rhel_initd.erb',
         cookbook: 'ghostdriver',
@@ -68,8 +78,8 @@ describe 'ghostdriver_test::phantomjs_standalone' do
           name: 'ghostdriver_standalone',
           user: 'ghostdriver',
           exec: '/usr/local/bin/ghostdriver',
-          args: '--webdriver=localhost:8911',
-          port: 8911,
+          args: '--webdriver=10.0.0.2:8910',
+          port: 8910,
           display: nil
         }
       )

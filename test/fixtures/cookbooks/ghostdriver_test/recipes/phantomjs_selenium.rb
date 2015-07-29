@@ -1,4 +1,5 @@
-ghostdriver 'ghostdriver' do
-  webdriverSeleniumGridHub 'http://10.0.0.2:4444'
+ghostdriver 'ghostdriver_seleniumnode' do
+  webdriver "#{node['ipaddress']}:8911"
+  webdriverSeleniumGridHub "http://#{node['ipaddress']}:4444"
   action :install
 end

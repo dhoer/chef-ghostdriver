@@ -19,28 +19,33 @@ def ghostdriver_args
 end
 
 action :install do
-  converge_by("Install ghostdriver Service: #{new_resource.name}") do
-    case node['platform']
-    when 'windows'
-      if new_resource.username && new_resource.password
-        ghostdriver_windows_foreground(new_resource.name, ghostdriver_exec, ghostdriver_args, new_resource.username)
-        ghostdriver_autologon(new_resource.username, new_resource.password, new_resource.domain)
-      else
-        ghostdriver_windows_service(new_resource.name, ghostdriver_exec, ghostdriver_args)
-      end
-
-      ghostdriver_windows_firewall(new_resource.name, ghostdriver_port(new_resource.webdriver))
-
-      windows_reboot "Reboot to start #{new_resource.name}" do
-        reason "Reboot to start #{new_resource.name}"
-        timeout node['windows']['reboot_timeout']
-        action :nothing
-      end
-    when 'mac_os_x'
+  converge_by("Install ghostdriver service: #{new_resource.name}") do
+    if platform?('mac_os_x')
       log('Mac OS X is not supported!') { level :warn }
     else
-      ghostdriver_linux_service(
-        new_resource.name, ghostdriver_exec, ghostdriver_args, ghostdriver_port(new_resource.webdriver), nil)
+      recipe_eval do
+        run_context.include_recipe 'phantomjs::default'
+      end
+
+      directory "#{ghostdriver_home}/log" do
+        recursive true
+        action :create
+      end
+
+      case node['platform']
+      when 'windows'
+        ghostdriver_windows_service(new_resource.name, ghostdriver_exec, ghostdriver_args)
+        ghostdriver_windows_firewall(new_resource.name, ghostdriver_port(new_resource.webdriver))
+
+        windows_reboot "Reboot to start #{new_resource.name}" do
+          reason "Reboot to start #{new_resource.name}"
+          timeout node['windows']['reboot_timeout']
+          action :nothing
+        end
+      else
+        ghostdriver_linux_service(
+          new_resource.name, ghostdriver_exec, ghostdriver_args, ghostdriver_port(new_resource.webdriver), nil)
+      end
     end
   end
 end
