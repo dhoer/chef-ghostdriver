@@ -21,7 +21,8 @@ end
 describe 'ghostdriver selenium node' do
   before(:all) do
     @selenium = Selenium::WebDriver.for(:remote, desired_capabilities: :phantomjs)
-    @selenium.manage.window.size = Selenium::WebDriver::Dimension.new(1280, 1024)
+    # cannot set display resolution on selenium node
+    # @selenium.manage.window.size = Selenium::WebDriver::Dimension.new(1280, 1024)
   end
 
   after(:all) do
