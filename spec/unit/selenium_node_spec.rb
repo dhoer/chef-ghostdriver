@@ -66,7 +66,7 @@ describe 'ghostdriver_test::selenium_node' do
         cookbook: 'ghostdriver',
         mode: '0755',
         variables: {
-          name: 'ghostdriver_seleniumnode',
+          name: 'ghostdriver_selenium_node',
           user: 'ghostdriver',
           exec: '/usr/local/bin/phantomjs',
           args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
