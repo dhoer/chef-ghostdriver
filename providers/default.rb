@@ -1,3 +1,5 @@
+use_inline_resources
+
 def whyrun_supported?
   true
 end
@@ -44,7 +46,8 @@ action :install do
         end
       else
         ghostdriver_linux_service(
-          new_resource.name, ghostdriver_exec, ghostdriver_args, ghostdriver_port(new_resource.webdriver), nil)
+          new_resource.name, ghostdriver_exec, ghostdriver_args, ghostdriver_port(new_resource.webdriver), nil
+        )
       end
     end
   end

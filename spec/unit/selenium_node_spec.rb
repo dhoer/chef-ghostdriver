@@ -8,7 +8,7 @@ describe 'ghostdriver_test::selenium_node' do
   context 'windows' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'windows', version: '2008R2', step_into: ['ghostdriver']) do
-        stub_command("netsh advfirewall firewall show rule name=\"ghostdriver_selenium_node\" > nul")
+        stub_command('netsh advfirewall firewall show rule name="ghostdriver_selenium_node" > nul')
       end.converge(described_recipe)
     end
 
@@ -57,7 +57,8 @@ describe 'ghostdriver_test::selenium_node' do
 
     it 'creates selenium user' do
       expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver_selenium_node').with(
-        username: 'ghostdriver')
+        username: 'ghostdriver'
+      )
     end
 
     it 'install service' do

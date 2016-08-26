@@ -9,7 +9,7 @@ describe 'ghostdriver_test::standalone' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'windows', version: '2008R2', step_into: ['ghostdriver']) do
         allow_any_instance_of(Chef::Recipe).to receive(:ghostdriver_home).and_return('C:/ghostdriver')
-        stub_command("netsh advfirewall firewall show rule name=\"ghostdriver_standalone\" > nul")
+        stub_command('netsh advfirewall firewall show rule name="ghostdriver_standalone" > nul')
       end.converge(described_recipe)
     end
 
@@ -60,7 +60,8 @@ describe 'ghostdriver_test::standalone' do
 
     it 'creates ghostdriver user' do
       expect(chef_run).to create_user('ensure user ghostdriver exits for ghostdriver_standalone').with(
-        username: 'ghostdriver')
+        username: 'ghostdriver'
+      )
     end
 
     it 'install service' do
