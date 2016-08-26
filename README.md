@@ -1,12 +1,13 @@
 # GhostDriver Cookbook
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/ghostdriver.svg?style=flat-square)][supermarket]
-[![Build Status](http://img.shields.io/travis/dhoer/chef-ghostdriver.svg?style=flat-square)][travis]
-[![GitHub Issues](http://img.shields.io/github/issues/dhoer/chef-ghostdriver.svg?style=flat-square)][github]
+[![linux](http://img.shields.io/travis/dhoer/chef-ghostdriver/master.svg?label=linux&style=flat-square)][linux]
+[![win](https://img.shields.io/appveyor/ci/dhoer/chef-ghostdriver/master.svg?label=windows&style=flat-square)][win]
 
 [supermarket]: https://supermarket.chef.io/cookbooks/ghostdriver
-[travis]: https://travis-ci.org/dhoer/chef-ghostdriver
-[github]: https://github.com/dhoer/chef-ghostdriver/issues
+[linux]: https://travis-ci.org/dhoer/chef-ghostdriver
+[win]: https://ci.appveyor.com/project/dhoer/chef-ghostdriver
+
 
 This cookbook installs and configures PhantomJS GhostDriver (https://github.com/detro/ghostdriver) as a 
 standalone server or selenium-grid node.
@@ -77,7 +78,7 @@ Cookbook Matchers
 
 ## Getting Help
 
-- Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/chef-ghostdriver).
+- Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/chef+ghostdriver).
 - Report bugs and discuss potential features in [Github issues](https://github.com/dhoer/chef-ghostdriver/issues).
 
 ## Contributing

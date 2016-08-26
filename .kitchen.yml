@@ -35,11 +35,8 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ghostdriver_test::package]
-      - recipe[ghostdriver_test::java]
-      - recipe[ghostdriver_test::hub]
-      - recipe[ghostdriver_test::selenium_node]
-      - recipe[ghostdriver_test::standalone]
+      - java_se
+      - ghostdriver_test::selenium
+      - ghostdriver_test::standalone
     attributes:
-      java:
-        jdk_version: '7'
+
