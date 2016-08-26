@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.1.0 2016-09-26
+## 2.0.0 2016-09-26
 
+- Chef 12+ is now required
 - Fix #3 PhantomJS download url has changed
 
 ## 1.0.1 2015-09-15
