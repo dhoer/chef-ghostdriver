@@ -1,7 +1,7 @@
 def ghostdriver_exec
   ghostdriver =
     platform_family?('windows') ? node['ghostdriver']['windows']['exec'] : node['ghostdriver']['linux']['exec']
-  ghostdriver_validate_exec(%("#{ghostdriver}" -v))
+  ghostdriver_validate_exec("#{ghostdriver} -v")
   ghostdriver
 end
 
