@@ -21,34 +21,29 @@ def ghostdriver_args
 end
 
 action :install do
-  converge_by("Install ghostdriver service: #{new_resource.name}") do
-    if platform?('mac_os_x')
-      log('Mac OS X is not supported!') { level :warn }
-    else
-      recipe_eval do
-        run_context.include_recipe 'phantomjs::default'
-      end
+  return Chef::Log.warn('Mac OS X is not supported!') if platform?('mac_os_x')
+  recipe_eval do
+    run_context.include_recipe 'phantomjs::default'
+  end
 
-      case node['platform']
-      when 'windows'
-        directory "#{node['ghostdriver']['windows']['home']}/log" do
-          recursive true
-          action :create
-        end
-
-        ghostdriver_windows_service(new_resource.name, ghostdriver_exec, ghostdriver_args)
-        ghostdriver_windows_firewall(new_resource.name, ghostdriver_port(new_resource.webdriver))
-
-        windows_reboot "Reboot to start #{new_resource.name}" do
-          reason "Reboot to start #{new_resource.name}"
-          timeout node['windows']['reboot_timeout']
-          action :nothing
-        end
-      else
-        ghostdriver_linux_service(
-          new_resource.name, ghostdriver_exec, ghostdriver_args, ghostdriver_port(new_resource.webdriver), nil
-        )
-      end
+  case node['platform']
+  when 'windows'
+    directory "#{node['ghostdriver']['windows']['home']}/log" do
+      recursive true
+      action :create
     end
+
+    ghostdriver_windows_service(new_resource.name, ghostdriver_exec, ghostdriver_args)
+    ghostdriver_windows_firewall(new_resource.name, ghostdriver_port(new_resource.webdriver))
+
+    windows_reboot "Reboot to start #{new_resource.name}" do
+      reason "Reboot to start #{new_resource.name}"
+      timeout node['windows']['reboot_timeout']
+      action :nothing
+    end
+  else
+    ghostdriver_linux_service(
+      new_resource.name, ghostdriver_exec, ghostdriver_args, ghostdriver_port(new_resource.webdriver), nil
+    )
   end
 end
