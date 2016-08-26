@@ -61,6 +61,10 @@ describe 'ghostdriver_test::selenium' do
       ).converge(described_recipe)
     end
 
+    it 'installs selenium_hub server' do
+      expect(chef_run).to install_selenium_hub('selenium_hub')
+    end
+
     it 'installs selenium_ghostdriver server' do
       expect(chef_run).to install_ghostdriver('ghostdriver_selenium_node')
     end
