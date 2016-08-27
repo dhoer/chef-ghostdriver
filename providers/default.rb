@@ -23,7 +23,7 @@ end
 action :install do
   return Chef::Log.warn('Mac OS X is not supported!') if platform?('mac_os_x')
   recipe_eval do
-    run_context.include_recipe 'phantomjs::default'
+    run_context.include_recipe 'phantomjs2::default'
   end
 
   case node['platform']

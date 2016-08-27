@@ -12,7 +12,7 @@
 This cookbook installs and configures PhantomJS GhostDriver (https://github.com/detro/ghostdriver) as a 
 standalone server or selenium-grid node.
 
-## Requirements
+`## Requirements
 
 - Chef 11.6.0 (includes a built-in registry_key resource) or higher
 
@@ -88,3 +88,4 @@ Please refer to [CONTRIBUTING](https://github.com/dhoer/chef-ghostdriver/blob/ma
 ## License
 
 MIT - see the accompanying [LICENSE](https://github.com/dhoer/chef-ghostdriver/blob/master/LICENSE.md) file for details.
+`

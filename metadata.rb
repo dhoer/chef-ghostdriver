@@ -13,6 +13,6 @@ supports 'redhat'
 supports 'ubuntu'
 supports 'windows'
 
-depends 'phantomjs', '~> 1.0'
+depends 'phantomjs2', '~> 1.0'
 depends 'nssm', '~> 1.0'
 depends 'windows', '~> 1.0'
