@@ -10,9 +10,9 @@
 
 
 This cookbook installs and configures PhantomJS GhostDriver (https://github.com/detro/ghostdriver) as a 
-standalone server or selenium-grid node.
+standalone server or selenium-grid node. PhantomJS is set to v1.9.8 in this cookbook.
 
-`## Requirements
+## Requirements
 
 - Chef 11.6.0 (includes a built-in registry_key resource) or higher
 
