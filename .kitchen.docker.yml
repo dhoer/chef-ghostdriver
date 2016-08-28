@@ -27,8 +27,8 @@ platforms:
   driver:
     image: centos:6
     intermediate_instructions:
-      - RUN yum -y install tar which initscripts
-      - RUN yum -y groupinstall 'Development Tools'
+      - RUN yum -y install tar which initscripts libffi-devel
+#      - RUN yum -y groupinstall 'Development Tools'
 
 - name: centos-7
   driver:
