@@ -1,23 +1,20 @@
 require 'spec_helper'
 
 describe 'ghostdriver_test::selenium' do
-  # let(:shellout) { double(run_command: nil, error!: nil, stdout: ' ', live_stream: stdout) }
-  #
-  # before { allow(Mixlib::ShellOut).to receive(:new).and_return(shellout) }
-
-  # let(:shellout) do
-  #   double(run_command: nil, error!: nil, error?: false, stdout: '1',
-  #          stderr: double(empty?: true), exitstatus: 0,
-  #          :live_stream= => nil)
-  # end
-  #
-  # before do
-  #   allow(Mixlib::ShellOut).to receive(:new).and_return(shellout)
-  # end
+  let(:shellout) do
+    double(run_command: nil, error!: nil, error?: false, stdout: '1',
+           stderr: double(empty?: true), exitstatus: 0,
+           :live_stream= => nil)
+  end
 
   context 'windows' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'windows', version: '2008R2', step_into: ['ghostdriver']) do
+        ENV['ProgramData'] = 'C:/ProgramData'
+        ENV['SYSTEMDRIVE'] = 'C:'
+        allow(Mixlib::ShellOut).to receive(:new).with(
+          'C:/ProgramData/phantomjs/phantomjs/phantomjs.exe -v'
+        ).and_return(shellout)
         stub_command('netsh advfirewall firewall show rule name="ghostdriver_selenium_node" > nul')
       end.converge(described_recipe)
     end
@@ -34,7 +31,7 @@ describe 'ghostdriver_test::selenium' do
 
     it 'install service' do
       expect(chef_run).to install_nssm('ghostdriver_selenium_node').with(
-        program: 'C:/ProgramData/chocolatey/bin/phantomjs.exe',
+        program: 'C:/ProgramData/phantomjs/phantomjs/phantomjs.exe',
         args: '--webdriver=10.0.0.2:8911 --webdriver-selenium-grid-hub=http://10.0.0.2:4444',
         params: {
           AppDirectory: 'C:/ghostdriver',
@@ -56,9 +53,9 @@ describe 'ghostdriver_test::selenium' do
 
   context 'linux' do
     let(:chef_run) do
-      ChefSpec::SoloRunner.new(
-        file_cache_path: '/var/chef/cache', platform: 'centos', version: '7.0', step_into: ['ghostdriver']
-      ).converge(described_recipe)
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.0', step_into: ['ghostdriver']) do
+        allow(Mixlib::ShellOut).to receive(:new).with('/usr/local/bin/phantomjs -v').and_return(shellout)
+      end.converge(described_recipe)
     end
 
     it 'installs selenium_hub server' do
