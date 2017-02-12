@@ -95,7 +95,7 @@ describe 'ghostdriver_test::selenium' do
 
   context 'debian' do
     let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04', step_into: ['ghostdriver']) do
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04', step_into: ['ghostdriver']) do
         allow(Mixlib::ShellOut).to receive(:new).with('/usr/local/bin/phantomjs -v').and_return(shellout)
       end.converge(described_recipe)
     end
