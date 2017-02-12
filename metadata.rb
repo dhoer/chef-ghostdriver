@@ -6,9 +6,11 @@ description 'Selenium WebDriver for PhantomJS'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url 'https://github.com/dhoer/chef-ghostdriver' if respond_to?(:source_url)
 issues_url 'https://github.com/dhoer/chef-ghostdriver/issues' if respond_to?(:issues_url)
-version '1.1.0'
+version '1.2.0'
 
 supports 'centos'
+supports 'debian'
+supports 'fedora'
 supports 'redhat'
 supports 'ubuntu'
 supports 'windows'

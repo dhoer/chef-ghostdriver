@@ -1,0 +1,11 @@
+[Unit]
+Description=GhostDriver <%=@name%> service
+After=network.target
+
+[Service]
+User=<%= @user %>
+ExecStart=DISPLAY=<%= @display %> <%= @exec %> <%= @args %>
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

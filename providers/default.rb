@@ -4,6 +4,12 @@ def whyrun_supported?
   true
 end
 
+def systype
+  return 'systemd' if ::File.exist?('/proc/1/comm') && ::File.open('/proc/1/comm').gets.chomp == 'systemd'
+  return 'upstart' if platform?('ubuntu') && ::File.exist?('/sbin/initctl')
+  'systemv'
+end
+
 def ghostdriver_exec
   ghostdriver = new_resource.exec
   ghostdriver_validate_exec("#{ghostdriver} -v")
@@ -47,24 +53,51 @@ def ghostdriver_linux_service(name, exec, args, port, display)
     username username
   end
 
-  template "/etc/init.d/#{name}" do
-    source "#{node['platform_family']}_initd.erb"
-    cookbook 'ghostdriver'
-    mode '0755'
-    variables(
-      name: name,
-      user: username,
-      exec: exec,
-      args: args.join(' ').gsub('"', '\"'),
-      port: port,
-      display: display
-    )
-    notifies :restart, "service[#{name}]"
-  end
+  vars = {
+    name: name,
+    user: username,
+    exec: exec,
+    args: args.join(' ').gsub('"', '\"'),
+    port: port,
+    display: display
+  }
+
+  case systype
+  when 'systemd'
+    template "/etc/systemd/system/#{name}.service" do
+      source 'systemd.erb'
+      cookbook 'ghostdriver'
+      variables vars
+      mode '0755'
+      notifies(:restart, "service[#{name}]")
+    end
+  when 'upstart'
+    template "/etc/init/#{name}.conf" do
+      source 'upstart.erb'
+      cookbook 'ghostdriver'
+      variables vars
+      mode '0644'
+      notifies(:restart, "service[#{name}]")
+    end
+  else
+    directory pid_dir do
+      recursive true
+      owner usr
+      group grp
+    end
+
+    template "/etc/init.d/#{name}" do
+      cookbook 'ghostdriver'
+      source 'systemv.erb'
+      mode '0755'
+      variables vars
+      notifies(:restart, "service[#{name}]")
+    end
+  end unless platform?('windows')
 
   service name do
     supports restart: true, reload: true, status: true
-    action [:enable]
+    action :enable
   end
 end
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 2017-02-12
+
+- Add systemd support
+
 ## 1.1.0 2016-09-26
 
 - Use phantomjs2
