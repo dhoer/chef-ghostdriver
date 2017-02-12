@@ -62,38 +62,34 @@ def ghostdriver_linux_service(name, exec, args, port, display)
     display: display
   }
 
-  case systype
-  when 'systemd'
-    template "/etc/systemd/system/#{name}.service" do
-      source 'systemd.erb'
-      cookbook 'ghostdriver'
-      variables vars
-      mode '0755'
-      notifies(:restart, "service[#{name}]")
+  unless platform?('windows')
+    case systype
+    when 'systemd'
+      template "/etc/systemd/system/#{name}.service" do
+        source 'systemd.erb'
+        cookbook 'ghostdriver'
+        variables vars
+        mode '0755'
+        notifies(:restart, "service[#{name}]")
+      end
+    when 'upstart'
+      template "/etc/init/#{name}.conf" do
+        source 'upstart.erb'
+        cookbook 'ghostdriver'
+        variables vars
+        mode '0644'
+        notifies(:restart, "service[#{name}]")
+      end
+    else
+      template "/etc/init.d/#{name}" do
+        cookbook 'ghostdriver'
+        source 'systemv.erb'
+        mode '0755'
+        variables vars
+        notifies(:restart, "service[#{name}]")
+      end
     end
-  when 'upstart'
-    template "/etc/init/#{name}.conf" do
-      source 'upstart.erb'
-      cookbook 'ghostdriver'
-      variables vars
-      mode '0644'
-      notifies(:restart, "service[#{name}]")
-    end
-  else
-    directory pid_dir do
-      recursive true
-      owner usr
-      group grp
-    end
-
-    template "/etc/init.d/#{name}" do
-      cookbook 'ghostdriver'
-      source 'systemv.erb'
-      mode '0755'
-      variables vars
-      notifies(:restart, "service[#{name}]")
-    end
-  end unless platform?('windows')
+  end
 
   service name do
     supports restart: true, reload: true, status: true

@@ -72,7 +72,7 @@ describe 'ghostdriver_test::standalone' do
 
     it 'install service' do
       expect(chef_run).to create_template('/etc/init.d/ghostdriver_standalone').with(
-        source: 'rhel_initd.erb',
+        source: 'systemv.erb',
         cookbook: 'ghostdriver',
         mode: '0755',
         variables: {

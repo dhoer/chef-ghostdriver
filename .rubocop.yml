@@ -5,8 +5,11 @@ AllCops:
 LineLength:
   Max: 120
 
-MethodLength:
-  Max: 30
+Metrics/MethodLength:
+  Enabled: false
 
-AbcSize:
-  Max: 25
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
