@@ -3,9 +3,15 @@ Description=GhostDriver <%=@name%> service
 After=network.target
 
 [Service]
-User=<%= @user %>
-ExecStart=DISPLAY=<%= @display %> <%= @exec %> <%= @args %>
+Type=simple
+User=<%=@user%>
+<% if @display %>
+Environment=DISPLAY=<%=@display%>
+<% end %>
+ExecStart=<%=@exec%> <%=@args%>
+KillMode=process
 Restart=on-failure
+RestartSec=45s
 
 [Install]
 WantedBy=multi-user.target
