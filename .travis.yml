@@ -8,8 +8,7 @@ addons:
     packages:
       - chefdk
       - gcc
-      - libffi-dev
-      - ruby-dev
+      - build-essential
 
 services: docker
 
