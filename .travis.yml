@@ -7,9 +7,6 @@ addons:
       - chef-current-trusty
     packages:
       - chefdk
-      - gcc
-      - build-essential
-
 services: docker
 
 env:
