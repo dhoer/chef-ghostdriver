@@ -7,6 +7,10 @@ addons:
       - chef-current-trusty
     packages:
       - chefdk
+      - build-essential
+      - dh-autoreconf
+      - libffi-dev
+
 services: docker
 
 env:
