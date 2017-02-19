@@ -4,12 +4,11 @@ sudo: required
 addons:
   apt:
     sources:
-      - chef-current-precise
+      - chef-current-trusty
     packages:
       - chefdk
       - gcc
       - libffi-dev
-      - libffi6
 
 services: docker
 
