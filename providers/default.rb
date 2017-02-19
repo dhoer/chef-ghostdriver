@@ -93,7 +93,7 @@ def ghostdriver_linux_service(name, exec, args, port, display)
 
   service name do
     supports restart: true, reload: true, status: true
-    action :enable
+    action [:enable]
   end
 end
 
