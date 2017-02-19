@@ -9,6 +9,7 @@ addons:
       - chefdk
       - gcc
       - libffi-dev
+      - libffi6
 
 services: docker
 
