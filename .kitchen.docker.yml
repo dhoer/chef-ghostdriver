@@ -20,7 +20,7 @@ platforms:
   driver:
     image: centos:6
     intermediate_instructions:
-      - RUN yum -y install tar which initscripts
+      - RUN yum -y install tar which initscripts gcc libffi-devel
       - RUN yum -y groupinstall 'Development Tools'
 
 - name: centos-7
@@ -28,7 +28,7 @@ platforms:
     image: centos:7
     intermediate_instructions:
       - RUN yum clean all
-      - RUN yum -y install net-tools lsof
+      - RUN yum -y install net-tools lsof gcc libffi-devel
       - RUN yum -y groupinstall 'Development Tools'
     pid_one_command: /usr/lib/systemd/systemd
 
@@ -38,7 +38,7 @@ platforms:
     run_command: /sbin/init
     intermediate_instructions:
       - RUN /usr/bin/apt-get update && /usr/bin/apt-get upgrade -y
-      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools gcc libffi-dev -y
 
 - name: debian-8
   driver:
@@ -46,7 +46,7 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools gcc libffi-dev -y
 
 - name: fedora-latest
   driver:
@@ -55,7 +55,7 @@ platforms:
     - RUN yum clean all
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-      - RUN yum -y install tar yum which
+      - RUN yum -y install tar yum which gcc libffi-devel
 
 - name: ubuntu-12.04
   driver:
@@ -63,7 +63,7 @@ platforms:
     pid_one_command: /sbin/init
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential -y
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential gcc libffi-dev -y
 
 - name: ubuntu-14.04
   driver:
@@ -71,7 +71,7 @@ platforms:
     pid_one_command: /sbin/init
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential -y
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential gcc libffi-dev -y
 
 - name: ubuntu-16.04
   driver:
@@ -79,7 +79,7 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential -y
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential gcc libffi-dev -y
 
 suites:
 - name: default
