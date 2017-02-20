@@ -88,4 +88,3 @@ Please refer to [CONTRIBUTING](https://github.com/dhoer/chef-ghostdriver/blob/ma
 ## License
 
 MIT - see the accompanying [LICENSE](https://github.com/dhoer/chef-ghostdriver/blob/master/LICENSE.md) file for details.
-`

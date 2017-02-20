@@ -3,6 +3,7 @@
 ## 1.2.0 2017-02-12
 
 - Add systemd support
+- Drop support for centos 5
 
 ## 1.1.0 2016-09-26
 
