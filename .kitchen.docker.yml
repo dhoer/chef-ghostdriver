@@ -55,7 +55,7 @@ platforms:
     - RUN yum clean all
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-      - RUN yum -y install tar yum
+      - RUN yum -y install tar yum which
 
 - name: ubuntu-12.04
   driver:
@@ -71,7 +71,7 @@ platforms:
     pid_one_command: /sbin/init
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https net-tools -y
+      - RUN /usr/bin/apt-get install apt-transport-https net-tools build-essential -y
 
 - name: ubuntu-16.04
   driver:
